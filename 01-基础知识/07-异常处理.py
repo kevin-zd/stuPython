@@ -27,7 +27,7 @@ except ValueError:
 # 2.使用finally语句进行清理操作：可以使用finally语句来定义一些无论是否发生异常都需要执行的代码，例如释放资源、关闭文件等。
 file = None
 try:
-    file = open("test.txt", "r")
+    file = open("../test.txt", "r")
     content = file.read()
     print(content)
 except FileNotFoundError:
