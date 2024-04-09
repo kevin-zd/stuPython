@@ -20,3 +20,27 @@
 - 知识点不熟练导致的错误
   - 索引越界问题 IndexError
   - append()方法的使用掌握不熟练
+- 思路不清导致的问题解决方案
+  - 使用print()函数
+  - 使用"#"暂时注释部分代码
+- 被动掉坑：程序代码逻辑没有错，只是因为用户错误操作或者一些"例外情况"而导致的程序崩溃
+  - 解决方案：python提供了异常处理机制，可以在异常出现时即时捕获，然后内部"消化"，让程序继续运行
+
+<h4>3、python的异常处理机制</h4>
+**多个except结构**
+- 捕获异常的顺序按照先子类后父类的顺序，为了避免遗漏可能出现的异常，可以在最后增加BaseException
+**try...except...else结构**
+- 如果try块中没有抛出异常，则执行else块，如果try中抛出异常，则执行except块
+**try...except...else...finally结构**
+- finally块无论是否发生异常都会被执行，能常用来释放try块中申请的资源
+
+<h4>3、python常见的异常类型</h4>
+    异常类型              描述
+- ZeroDivisionError  除（或取模）零（所有数据类型）
+- IndexError         序列中没有此序列（index）
+- KeyError           映射中没有这个键
+- NameError          未声明/初始化对象（没有属性）
+- SyntaxError        Python语法错误
+- ValueError         传入无效的参数
+- traceback模块
+  - 使用traceback模块打印异常信息
