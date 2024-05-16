@@ -1,2 +1,6 @@
-{'id': '1001', 'name': 'zhangsan', 'english': 112, 'python': 123, 'java': 233}
-{'id': '1002', 'name': 'lisi', 'english': 98, 'python': 22, 'java': 33}
+{'id': '1001', 'name': '上海', 'english': '56', 'python': '66', 'java': '76'}
+{'id': '1002', 'name': 'wangwu', 'english': 99, 'python': 88, 'java': 89}
+{'id': '1003', 'name': '河南', 'english': 23, 'python': 84, 'java': 56}
+{'id': '1004', 'name': '江苏', 'english': 100, 'python': 104, 'java': 85}
+{'id': '1005', 'name': '湖南', 'english': 85, 'python': 67, 'java': 36}
+{'id': '1006', 'name': '河北', 'english': 88, 'python': 35, 'java': 46}
