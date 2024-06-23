@@ -16,7 +16,7 @@ import subprocess
 # subprocess.call(['open', '-a', 'Calculator'])
 
 print(os.getcwd())
-lst = os.listdir('../第4章 编码格式')
+lst = os.listdir('')
 print(lst)
 
 os.mkdir('newDir')

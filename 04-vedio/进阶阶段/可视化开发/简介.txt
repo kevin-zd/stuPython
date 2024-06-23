@@ -1,0 +1,24 @@
+python编程+Django框架 web网站开发
+
+1、了解Django框架
+    作用：
+        开发网站、做一些云接口（云服务）
+    为什么选择Django框架
+        开发的资源比较多；性能比较高，，能够承受高流量
+
+2、了解Python和Django框架的关系
+    python编程：直接用来编程逻辑的
+    Django框架：python编写的，和python编程的兼容性好，使用简单，第三方库，敏捷开发
+    pip list：查看第三方库
+
+2、创建后台数据库账户并登录默认的框架后台
+ 1）建表（django框架自带的后台数据表）
+ 通过指令建表python manage.py migrate
+ 注意：利用的是框架默认的模型文件（python类文件）
+ 3）创建登录账号
+ 通过指令python manage.py createsuperuser
+ 创建管理员用户账号
+ 4）查看数据库
+ 创建管理员等用户的表是Auth_user表
+ 用户登录后会有一个会话数据
+ Django_session表
