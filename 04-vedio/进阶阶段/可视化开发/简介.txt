@@ -147,6 +147,191 @@ json数组：类似python中的列表[值1,值2，值3]，这个值可以是某�
         upper：全部转为大写
         lower:全部转为小写
         title：首字符转为大写
+5）格式化对齐方式
+    a.ljust、rjust、center的格式化方式
+        ljust：文本在指定格式中左对齐
+        rjust：文本在指定格式中右对齐
+        center：文本在指定区域内居中显示
+    这三个过滤器效果只会产生在源代码中的空格内的对齐方法。
+6）截取元素或字符串的方法
+    first：显示第一个元素
+        e.g {{articleList|first}}  等价于 {{articleList.0}}
+    last：显示最后一个元素
+    slice：截取指定的一批元素。格式类似python编程中的切片。注：末尾的索引位置不被包含
+        {{articleList.0.title|slice:"5:-1"}}
+        {{articleList.0.title|slice:"5:"}}
+        {{articleList.0.title|slice:"5:10"}}
+    注：如果是列表，针对的是列表中的索引的元素。
+       如果是对字符串文本来说，那么结果对应显示的这个字符串中的字符
+7）拼接或简化显示的处理方法
+    a.join方式转换字符串
+        一个字符串是由多个字符组成的，字符串可以看作一个字符列表格式化为指定的字符串
+        使用格式：
+            {{列表或字符串|join:"隔开的字符"}}
+        join过滤器针对列表格式化
+    b.truncatechars、truncatewords方法简化字符串显示
+        truncatewords：将英文单词过长的简化显示
+        truncatechars：支持中文字符过长的简化显示
+8）add过滤器的3种用法
+    过滤器使用格式：
+        {{变量|add:"参数"}}
+    a.加法计算
+        参数是一个数字类型的
+        注：后台输出的变量是数字的数值型或字符串型的纯数字，那么在add过滤器中都可以实现加法
+    b.字符串拼接
+        参数是一个字符串时，会在原变量基础上拼接
+    c.列表元素的增加
+        把增加的列表的元素合并到列表变量的最后
+9）过滤器
+    在项目应用程序文件夹内创建templatetags文件夹
+    此文件夹用来创建自定义的过滤器
+    a.过滤器文件结构和配置
+        注：创建应用程序添加到项目中。在settings.py文件内的installed_apps内配置当前应用程序的名字
+    b.自定义过滤器方法的定义
+        自定义过滤器思路：
+            1）导入模版库template
+            2）实例化一个register模版注册器，要注册过滤器
+            3）用一个函数表示过滤器的功能，要把函数注册到过滤器
+        过滤器格式：
+            @register.filter
+            def 函数名(template 传递过来的变量, 过滤器传递参数1, 过滤器传递参数2):
+                过滤器内部处理
+    c.过滤器功能的引入和使用
+        在html开头引入 {% load myFilter %}
+        使用的是与之前使用框架自带的过滤器方法
+        {{article.title|myFilterMGW:"myFilterContent"}}
+10）使用图片、css、js等文件的核心方法，配置和使用静态资源文件
+    a.配置setting.py文件设置资源文件目录
+        静态资源文件目录
+        在应用程序目录下新建一个static文件夹作为静态资源文件夹，包含img（图片）、css文件夹、js文件夹、others（其他文件文件夹）
+        在settings.py配置文件中配置静态资源文件夹的实际所在位置
+        实际所在位置其实就是文件的路径
+        STATICFILES_DIR = [str(BASE_DIR)+"/polls/static"]    //该配置主要目的指向静态资源的物理文件夹，调用的时候，可以直接在前台中调用路径为/static/img图片
+    b.template模版调用资源文件的方法
+        模版中先载入静态资源路径
+        然后调用static变量拼接实际的路径
+        注：static后面必须要接一个参数，没有参数时的报错'static' takes at least one argument (path to file)
+        在settings.py配置文件中的STATIC_URL = 'static/'变量的作用其实只是为了给静态资源的方法输出时起了别名
+11）forloop的使用
+    注：关于在template模板中的注释
+        {# ... #}：是不会把代码渲染出来的
+        <!-- ... -->：html代码注释，是会在源代码中被看到
+    a.forloop对象的运用
+        {'parentloop': {}, 'counter0': 0, 'counter': 1, 'revcounter': 3, 'revcounter0': 2, 'first': True, 'last': False}
+        parentloop：代表上一层循环
+        counter0：代表从0开始数编号
+        counter：代表从个开始数编号
+        revcounter：倒数编号，直到1为止
+        revcounter0：倒数编号（最大数为数量-1），直到0为止
+        first：代表是否为第一篇
+        last：代表是否为最后一篇
+12）对变量名重定义命名
+    a.with...endwith对变量名称重新定义命名的两种写法：
+        使用as关键词写法
+            {% with 变量名称 as 新变量名 %}
+                {{ 新变量名 }}
+            {% endwith %}
+        使用赋值式写法
+            {% with 新变量名 = 变量名称 %}
+                {{ 新变量名 }}
+            {% endwith %}
+13）template模板母板页的定义和调用
+    a.网页开发中常见思想以及母版页的编写
+        常见思想：
+            提取共有的网页部分，不必重新写
+            好处：方便维护，只要改变一处共有页，那么就能改变所有 应用这个共有页
+            定义母版页中需要改变的部分的模块的格式：
+                {%block 占位符名称%}
+                {%endblock%}
+            网页名称应该不同，可以用占位符；导航栏相同的部分，不能被改变；网页主体部分不一样，需要占位符
+            注：不同位置的部分，需要的占位符名称不同
+        定义母版页流程：
+            1）分析网页相同部分、不同部分
+            2）新建一张html页面作为母版页
+            3）使用占位符标签{%block 名称%}...{%endblock%}占用会改变的部分
+    b.extends方法使用母版页
+14）自定义网页组件
+    a.组件思想
+        组件：固定的开发的界面或功能，可以通过html+django后台结合来自定义
+        1）创建组件：建立html模版，写界面+后台相关
+        2）引入组件：include关键词，方法，将组件名称作为参数
+        使用逻辑符合 {%include 组件名称字符串%}
+    b.include方法使用组件
+
+五、sqlite3数据库
+1）简单介绍
+    a.下载数据库管理工具sqlite3命令行工具
+        sqlite数据库是可以使用sqlite3命令行工具管理的
+        sqlite命令行管理工具免费的、开源的，跨平台的
+        db.sqlite3数据库文件
+2）数据管理语句
+    sqlite3进入数据库文件后，查看所有的表
+        .table：查看数据库文件中的所有的表
+        .schema：查看数据库中所有的表结构创建情况，没有数据；一般结合.tables命令，指定查询某张表的结构
+            查询格式.shema表名称
+        .dump：查看数据库的表结构和数据。默认情况显示所有的表和数据；一般结合.tables命令，指定查询某张表的结构以及sql语句的数据
+            也可以用作表结构和数据的导出，方便导入到另一个数据库中
+3）创建数据表
+    create table语句的使用
+        创建sql语句
+        格式：
+            create table 表名称(字段1名称 字段类型/字段限制，字段2 字段2类型/字段限制);
+            primary key：表示当前字段是主键
+            int：整型
+        步骤：
+            1）打开数据库
+            2）用create语句创建表
+            3）用.dump命令查看具体的表结构.table查看表内容
+4）用sql语句录入数据
+    insert语句录入数据
+    格式：
+        1）insert into 表名称(表字段1名称，表字段2名称...) values(对应字段1的值，对应字段2的值)
+        2）insert into 表名称 values(对应字段1的值，对应字段2的值)
+
+CREATE TABLE userinfo(userID int primary key not null,username varchar(50) not null,password varchar(50),truename varchar(50),sex varchar(50),age int);
+INSERT INTO "userinfo" VALUES(1000,'zhaoding','123','赵鼎','男',30);
+INSERT INTO "userinfo" VALUES(1001,'zhangsan','234','张三','男',31);
+INSERT INTO "userinfo" VALUES(1002,'lisi','345','里斯本','女',26);
+
+    select语句查询数据
+    格式：
+        1）select 字段1的名称、字段2名称... from 表的名称
+            * 代表所有的字段
+            结合where语句筛选指定的数据
+            select 字段名 from 表名称 where语句
+            where语法的写法：
+                where表达式：大小比较、模糊比较等等
+
+    update语句更新数据
+    格式：
+        update 表名称 set 字段1=更新值1,字段2=更新值2...where 筛选指定数据
+sqlite> update userinfo set truename='奥黛丽' where userID=1002;
+
+    delete语句删除数据
+    格式：
+        delete from 表名称
+        一般结合where语句使用
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

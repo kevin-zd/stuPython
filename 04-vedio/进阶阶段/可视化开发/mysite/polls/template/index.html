@@ -1,25 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>首页</title>
-</head>
-<body>
-    <h3>接收后台传来的数据的功能</h3>
-    {{blog_name|default:"尚未配置"}}
-    博客文章列表：<br />
+{% extends 'base.html'%}
+{% load myFilter %}
+{% load static %}
+
+{%block titleName%}
+django编程 demo
+      {%endblock%}
+
+{%block articleContent%}
     <ul>
         {%for article in articleList%}
-            {%if article.author == '天龙八部' %}
-                <li>{{article.title|upper}} 作者：{{article.author}} 日期：{{article.date|date:'Y年m月d日 h时i分s秒'}}</li>
-            {%elif article.author == '神雕侠侣' %}
-                <li style="color:blue">{{article.title|lower}} 作者：{{article.author}} 日期：{{article.date|date:'Y年m月d日 h时i分s秒'}}</li>
-            {%else%}
-                <li style="color:red">{{article.title|title}} 作者：{{article.author}} 日期：{{article.date|date:'Y年m月d日 h时i分s秒'}}</li>
-            {%endif%}
+            {% if forloop.last %}
+                <li style="color:red">{{forloop.counter}}、{{article.title}} 作者：{{article.author}} 日期：{{article.date|date:'Y年m月d日 h时i分s秒'}}</li>
+            {% else %}
+                <li>{{forloop.counter}}、{{article.title}} 作者：{{article.author}} 日期：{{article.date|date:'Y年m月d日 h时i分s秒'}}</li>
+            {% endif %}
         {%empty%}
         <li>暂时没有文章</li>
        {%endfor%}
     </ul>
-</body>
-</html>
+<hr>
+{%include 'comments.html' %}
+{%endblock%}

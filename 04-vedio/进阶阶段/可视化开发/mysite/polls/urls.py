@@ -22,6 +22,8 @@ urlpatterns = [
     path("", views.index, name="index"),
     path("newsList/", views.getNews),
     path("home", views.myHome),
+    path('setting', views.setting),    # 设置
+    path('register', views.register),  # 注册页面
     # ex: /polls/
     path("", views.index, name="index"),
     # ex: /polls/5/

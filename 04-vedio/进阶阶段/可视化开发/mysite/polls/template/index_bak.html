@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+{% load myFilter  %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+</head>
+<body>
+<!--{% static 'img/background.jpeg' %}-->
+<!--<img src="{% static 'img/background.jpeg' %}">-->
+    <h3>接收后台传来的数据的功能</h3>
+    {{blog_name|default:"尚未配置"}}
+    博客文章列表：<br />
+    1、最佳文章：{{articleList.0.title|rjust:"200"}} <br />
+    2、首个文章内容：{{articleList|first}} <br />
+    3、最后文章内容：{{articleList|last}} <br />
+    4、首个文章字符：{{articleList.0.title|first}} <br />
+    5、首个文章字符：{{articleList.0.title|slice:"5:"}} <br />
+    6、首个文章字符：{{articleList.0.title|join:","}} <br />
+    7、最佳文章：{{articleList.0.title|truncatewords:2}} <br />
+    8、最佳文章：{{articleList.0.title|truncatechars:24}} <br />
+    <h3>add过滤器的3种用法</h3>
+    <ul>
+        <li>最佳文章：{{articleList.0.title|add:"2"}}</li>
+        <li>最佳文章：{{articleList|add:articleList2}}</li>
+    </ul>
+    <h3>过滤器</h3>
+    <ul>
+        <li>最佳文章：{{articleList.0.title|myFilterMGW:"过滤器替换的指定词"}}</li>
+        <li>最佳文章：{{articleList|add:articleList2}}</li>
+    </ul>
+    <ul>
+        {%for article in articleList%}
+            {%if article.author == '天龙八部' %}
+                <li>{{article.title|upper}} 作者：{{article.author}} 日期：{{article.date|date:'Y年m月d日 h时i分s秒'}}</li>
+            {%elif article.author == '神雕侠侣' %}
+                <li style="color:blue">{{article.title|lower}} 作者：{{article.author}} 日期：{{article.date|date:'Y年m月d日 h时i分s秒'}}</li>
+            {%else%}
+                <li style="color:red">{{article.title|title}} 作者：{{article.author}} 日期：{{article.date|date:'Y年m月d日 h时i分s秒'}}</li>
+            {%endif%}
+        {%empty%}
+        <li>暂时没有文章</li>
+       {%endfor%}
+    </ul>
+    <h3>forloop在template模板中的使用</h3>
+    <ul>
+        {%for article in articleList%}
+            {% if forloop.last %}
+                <li style="color:red">{{forloop.counter}}、{{article.title}} 作者：{{article.author}} 日期：{{article.date|date:'Y年m月d日 h时i分s秒'}}</li>
+            {% else %}
+                <li>{{forloop.counter}}、{{article.title}} 作者：{{article.author}} 日期：{{article.date|date:'Y年m月d日 h时i分s秒'}}</li>
+            {% endif %}
+        {%empty%}
+        <li>暂时没有文章</li>
+       {%endfor%}
+    </ul>
+    <h3>forloop在template模板中的使用</h3>
+    <ul>
+        {% with articleList.1.title as goodTitle %}
+        最佳文章：{{ articleList.1.title}} <br \>
+        好的文章：{{ goodTitle }}
+        {% endwith %}
+    </ul>
+    <ul>
+        {% with goodTitles=articleList.1.title  %}
+        最佳文章：{{ articleList.1.title}} <br \>
+        好的文章：{{ goodTitles }}
+        {% endwith %}
+    </ul>
+
+
+</body>
+</html>
