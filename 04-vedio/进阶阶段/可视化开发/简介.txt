@@ -311,7 +311,40 @@ sqlite> update userinfo set truename='奥黛丽' where userID=1002;
     格式：
         delete from 表名称
         一般结合where语句使用
+六、注册页面
+1）网页注册通过post方式提交给服务器
+    表单数据的提交方式：
+        默认get方式：在url上会生成键值对的形式
+        使用post方式提交数据，默认情况下django框架要求防止csrf攻击
+        逻辑代码{%csrf_token%}会自动生成hidden的值
+    csrf_token的含义
 
+    post数据提交与获取方法
+        1）添加{%csrf_token%}，添加在form标签内部
+        2）修改form的提交方式为method=post
+        3）添加一条接收提交数据的路由/register/add/
+        4）将新路由定位到接收数据的方法regadd
+        5）通过request.POST['这里写form内部的控件的name的名称']，会返回对应的值
+2）用sql实现用户注册功能
+    django.db.connection类的使用
+    Django数据库中自带的数据库连接类
+    1）找到Cursor()游标对象，这个游标对象内有数据库的连接信息
+    2）执行sql语句，通过execute方法执行insert语句录入用户信息
+    步骤：
+    导入 from django.db import connection
+    获取游标 mycursor = connection.cursor() # 获取游标对象
+    执行sql语句 mycursor.execute('insert into userinfo(userid,username,password,truename,sex,age) values(%s,%s,%s,%s,%s,%s)', (userid, username, password, truename, sex, age))
+    execute方法第一个参数：sql语句，中间的变量用%s代替
+    第二个参数：元组表示，值为之前的sql语句中的%s依次替换
+
+2）查询sql数据
+    数据库连接
+    connection类，默认连接setting.py文件配置中的数据库
+    执行sql语句
+    游标的execute方法，执行select语句
+    获取查询到的数据
+    fetchall方法
+    输出查询的数据
 
 
 
